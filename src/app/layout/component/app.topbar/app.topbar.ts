@@ -3,13 +3,12 @@ import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
-import { AppConfigurator } from '../app.configurator';
 import { LayoutService } from '../../service/layout.service';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
+    imports: [RouterModule, CommonModule, StyleClassModule],
     templateUrl: './app.topbar.html'
 })
 export class AppTopbar {
@@ -20,4 +19,14 @@ export class AppTopbar {
     toggleDarkMode() {
         this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
     }
+
+    /**
+     * Returns true when dark mode is active.
+     * Uses the LayoutService computed signal `isDarkTheme`.
+     */
+    isDarkMode(): boolean {
+        // `isDarkTheme` is a computed signal; call it to get the current boolean value
+        return !!this.layoutService.isDarkTheme();
+    }
+
 }
