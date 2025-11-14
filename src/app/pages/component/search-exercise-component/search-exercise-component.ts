@@ -66,5 +66,13 @@ export class SearchExerciseComponent  extends List{
     alert(passsedVal);
   }
 
+  clearSearch(){
+    this.searchControl.setValue('');
+  }
+
+  clearResults(){
+    this.searchResults = [];
+  }
+
 
 }
