@@ -6,19 +6,23 @@ import { FormControl } from '@angular/forms';
 import { distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from 'primeng/dialog';
+import { ListExerciseComponent } from '../list-exercise-component/list-exercise-component';
+import { List } from '../List';
 
 @Component({
   selector: 'app-search-exercise-component',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, ListExerciseComponent],
   templateUrl: './search-exercise-component.html',
   styleUrl: './search-exercise-component.scss'
 })
-export class SearchExerciseComponent {
+export class SearchExerciseComponent  extends List{
 
 
   constructor(
     private exerciseService: ExerciseService
-  ) { }
+  ) {
+    super();
+  }
 
   searchControl = new FormControl<string>('', {
     asyncValidators: [],
@@ -30,8 +34,6 @@ export class SearchExerciseComponent {
   searchResults: any[] = [];
   loading = false;
   selectedExercise: Exercise | null = null;
-  showGif: boolean = false;
-  colors: string[] = ["blue", "green","yellow", "cyan", "pink", "purple"];
   private sub?: Subscription;
 
 
@@ -58,20 +60,6 @@ export class SearchExerciseComponent {
     this.searchResults = this.exerciseService.filterItemsByName(searchquery);
     this.loading = false;
     console.log('Filtrerade resultat:', this.searchResults);
-  }
-
-
-  toggleGif() {
-    this.showGif = !this.showGif;
-    let seconds = 7;
-    const interval = setInterval(() => {
-      console.log(seconds); // Visar nedräkningen i konsolen
-      seconds--;
-      if (seconds < 0) {
-        this.showGif = false;
-        clearInterval(interval);
-      }
-    }, 1000);
   }
 
   showPopup(passsedVal: string) {

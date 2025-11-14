@@ -10,10 +10,11 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { SearchExerciseComponent } from '../component/search-exercise-component/search-exercise-component';
 import { Observable } from 'rxjs';
 import { ExerciseService } from '../service/exercise.service';
 import { CompletedExerciseModel } from '../models/completedExercise.model';
+import { SearchExerciseComponent } from '../component/search-exercise-component/search-exercise-component';
+import { ListCompletedExerciseComponent } from "../component/list-completed-exercise-component/list-completed-exercise-component";
 
 
 
@@ -21,18 +22,20 @@ import { CompletedExerciseModel } from '../models/completedExercise.model';
     selector: 'app-start',
     standalone: true,
     imports: [
-        CommonModule,
-        ButtonModule,
-        MenuModule,
-        FormsModule,
-        InputGroupModule,
-        InputGroupAddonModule,
-        IftaLabelModule,
-        InputNumberModule,
-        SelectModule,
-        FloatLabelModule,
-        InputTextModule,
-        SearchExerciseComponent],
+    CommonModule,
+    ButtonModule,
+    MenuModule,
+    FormsModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    IftaLabelModule,
+    InputNumberModule,
+    SelectModule,
+    FloatLabelModule,
+    InputTextModule,
+    SearchExerciseComponent,
+    ListCompletedExerciseComponent
+],
     templateUrl: 'start.html',
     styleUrl: 'start.scss'
 
