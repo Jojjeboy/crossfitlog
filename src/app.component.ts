@@ -1,7 +1,7 @@
 import { OnInit, Component } from '@angular/core';
-import { ExcerciseModel } from '@/pages/models/excercise.model';
+import { ExerciseModel } from '@/pages/models/exercise.model';
 import { Observable } from 'rxjs';
-import { ExcerciseService } from '@/pages/service/excercise.service';
+import { ExerciseService } from '@/pages/service/exercise.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -12,24 +12,19 @@ import { RouterModule } from '@angular/router';
 })
 export class AppComponent implements OnInit {
     
-    excercises$: Observable<ExcerciseModel[]>; // Deklarera en observable
+    exercises$: Observable<ExerciseModel[]>; // Deklarera en observable
 
     constructor(
-        private excerciseService: ExcerciseService
+        private exerciseService: ExerciseService
 
     ){
         // Tilldela Observable i konstruktorn
-        this.excercises$ = this.excerciseService.excercises$; 
+        this.exercises$ = this.exerciseService.exercises$; 
     }
 
     ngOnInit(): void {
-        if (!this.excerciseService.getIsLoaded()) {
-            this.excerciseService.loadDataFromDB();
+        if (!this.exerciseService.getIsLoaded()) {
+            this.exerciseService.loadDataFromDB();
         }
-        this.excerciseService.loadFromStorage();
     }
 }
-// Och sedan använder du | async pipen i din template:
-// <div *ngFor="let exercise of excercises$ | async">...</div>
-
-//Detta är det rekommenderade sättet att hantera asynkron data i Angular! Låt mig veta om du vill att jag fixar din `AppComponent` så att den också använder `Observable`s korrekt.

@@ -1,5 +1,5 @@
-import { ExcerciseService } from '@/pages/service/excercise.service';
-import { Exercise } from '@/pages/models/excercise.interface';
+import { ExerciseService } from '@/pages/service/exercise.service';
+import { Exercise } from '@/pages/models/exercise.interface';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
@@ -8,16 +8,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from 'primeng/dialog';
 
 @Component({
-  selector: 'app-search-excercise-component',
+  selector: 'app-search-exercise-component',
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './search-excercise-component.html',
-  styleUrl: './search-excercise-component.scss'
+  templateUrl: './search-exercise-component.html',
+  styleUrl: './search-exercise-component.scss'
 })
-export class SearchExcerciseComponent {
+export class SearchExerciseComponent {
 
 
   constructor(
-    private excerciseService: ExcerciseService
+    private exerciseService: ExerciseService
   ) { }
 
   searchControl = new FormControl<string>('', {
@@ -55,7 +55,7 @@ export class SearchExcerciseComponent {
 
   async performSearch(searchquery: string) {
     this.loading = true;
-    this.searchResults = this.excerciseService.filterItemsByName(searchquery);
+    this.searchResults = this.exerciseService.filterItemsByName(searchquery);
     this.loading = false;
     console.log('Filtrerade resultat:', this.searchResults);
   }

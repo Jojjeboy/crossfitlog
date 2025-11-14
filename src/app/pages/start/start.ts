@@ -10,7 +10,10 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { SearchExcerciseComponent } from '../component/search-excercise-component/search-excercise-component';
+import { SearchExerciseComponent } from '../component/search-exercise-component/search-exercise-component';
+import { Observable } from 'rxjs';
+import { ExerciseService } from '../service/exercise.service';
+import { CompletedExerciseModel } from '../models/completedExercise.model';
 
 
 
@@ -18,29 +21,38 @@ import { SearchExcerciseComponent } from '../component/search-excercise-componen
     selector: 'app-start',
     standalone: true,
     imports: [
-        CommonModule, 
-        ButtonModule, 
+        CommonModule,
+        ButtonModule,
         MenuModule,
         FormsModule,
         InputGroupModule,
         InputGroupAddonModule,
-        IftaLabelModule, 
-        InputNumberModule, 
-        SelectModule, 
-        FloatLabelModule, 
+        IftaLabelModule,
+        InputNumberModule,
+        SelectModule,
+        FloatLabelModule,
         InputTextModule,
-        SearchExcerciseComponent],
+        SearchExerciseComponent],
     templateUrl: 'start.html',
     styleUrl: 'start.scss'
 
 })
-export class Start implements OnInit { 
-    doneWorkouts:any;
-    value: number = 10;
-    ngOnInit(): void {
-        this.doneWorkouts = [];
+export class Start implements OnInit {
+    completedExercise$: Observable<CompletedExerciseModel[]>; // Deklarera en observable
+
+    constructor(
+        private exerciseService: ExerciseService
+    ) {
+        // Tilldela Observable i konstruktorn
+        this.completedExercise$ = this.exerciseService.completedExercise$;
     }
 
-    
+    ngOnInit(): void {
+        //this.exerciseService.loadFromStorage();
+    }
+
+// Och sedan använder du | async pipen i din template:
+// <div *ngFor="let exercise of exercises$ | async">...</div>
+//Detta är det rekommenderade sättet att hantera asynkron data i Angular! Låt mig veta om du vill att jag fixar din `AppComponent` så att den också använder `Observable`s korrekt.
 
 }

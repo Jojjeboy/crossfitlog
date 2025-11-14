@@ -33,25 +33,25 @@ export interface Exercise {
    * List of equipment required for the exercise.
    * @example ["band"]
    */
-  equipments: Equipment
+  equipments: string []
 
   /**
    * Primary body parts targeted by the exercise.
    * @example ["back"]
    */
-  bodyParts: BodyPart
+  bodyParts: string []
 
   /**
    * Primary muscles targeted by the exercise.
    * @example ["traps"]
    */
-  targetMuscles: Muscle
+  targetMuscles: string[]
 
   /**
    * Secondary muscles engaged during the exercise.
    * @example ["traps", "traps", "triceps"]
    */
-  secondaryMuscles: Muscle
+  secondaryMuscles: string[]
 
   /**
    * Step-by-step instructions to perform the exercise.

@@ -1,23 +1,25 @@
-import { Exercise, BodyPart, Muscle, Equipment } from './excercise.interface';
+// Importera ENDAST Exercise, eftersom de andra är borttagna
+import { Exercise } from './exercise.interface';
 
-export class ExcerciseModel implements Exercise {
+// Ändra alla typer från Equipment/BodyPart/Muscle till string[]
+export class ExerciseModel implements Exercise {
     private _exerciseId: string;
     private _name: string;
     private _gifUrl: string;
-    private _equipments: Equipment;
-    private _bodyParts: BodyPart;
-    private _targetMuscles: Muscle;
-    private _secondaryMuscles: Muscle;
+    private _equipments: string[]; // <-- ÄNDRAD
+    private _bodyParts: string[]; // <-- ÄNDRAD
+    private _targetMuscles: string[]; // <-- ÄNDRAD
+    private _secondaryMuscles: string[]; // <-- ÄNDRAD
     private _instructions: string[];
 
     constructor(
         exerciseId: string,
         name: string,
         gifUrl: string,
-        equipments: Equipment,
-        bodyParts: BodyPart,
-        targetMuscles: Muscle,
-        secondaryMuscles: Muscle,
+        equipments: string[], // <-- ÄNDRAD
+        bodyParts: string[], // <-- ÄNDRAD
+        targetMuscles: string[], // <-- ÄNDRAD
+        secondaryMuscles: string[], // <-- ÄNDRAD
         instructions: string[]
     ) {
         this._exerciseId = exerciseId;
@@ -44,19 +46,19 @@ export class ExcerciseModel implements Exercise {
         return this._gifUrl;
     }
 
-    public get equipments(): Equipment {
+    public get equipments(): string[] { // <-- ÄNDRAD
         return this._equipments;
     }
 
-    public get bodyParts(): BodyPart {
+    public get bodyParts(): string[] { // <-- ÄNDRAD
         return this._bodyParts;
     }
 
-    public get targetMuscles(): Muscle {
+    public get targetMuscles(): string[] { // <-- ÄNDRAD
         return this._targetMuscles;
     }
 
-    public get secondaryMuscles(): Muscle {
+    public get secondaryMuscles(): string[] { // <-- ÄNDRAD
         return this._secondaryMuscles;
     }
 
@@ -66,12 +68,10 @@ export class ExcerciseModel implements Exercise {
 
     // --- Setters (Skriv-åtkomst) ---
 
-    // Setter för 'exerciseId' (kan göras skyddad om ID inte ska ändras)
     public set exerciseId(value: string) {
         this._exerciseId = value;
     }
 
-    // Setter för 'name' (kan inkludera validering)
     public set name(value: string) {
         if (value.trim().length === 0) {
             throw new Error("Namn får inte vara tomt.");
@@ -83,19 +83,19 @@ export class ExcerciseModel implements Exercise {
         this._gifUrl = value;
     }
 
-    public set equipments(value: Equipment) {
+    public set equipments(value: string[]) { // <-- ÄNDRAD
         this._equipments = value;
     }
 
-    public set bodyParts(value: BodyPart) {
+    public set bodyParts(value: string[]) { // <-- ÄNDRAD
         this._bodyParts = value;
     }
 
-    public set targetMuscles(value: Muscle) {
+    public set targetMuscles(value: string[]) { // <-- ÄNDRAD
         this._targetMuscles = value;
     }
 
-    public set secondaryMuscles(value: Muscle) {
+    public set secondaryMuscles(value: string[]) { // <-- ÄNDRAD
         this._secondaryMuscles = value;
     }
 

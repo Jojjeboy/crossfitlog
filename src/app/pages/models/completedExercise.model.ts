@@ -1,5 +1,5 @@
-import { Exercise as IExercise } from "./excercise.interface";
-import { CompletedExercise } from "./completedExcercise.interface";
+import { Exercise as IExercise } from "./exercise.interface";
+import { CompletedExercise } from "./completedExercise.interface";
 import { CompletedSet } from "./completedSets.interface";
 
 // Implementerar CompletedExercise-interfacet med getters och setters
@@ -24,9 +24,11 @@ export class CompletedExerciseModel implements CompletedExercise {
         this._date = date;
         this._sets = sets;
         this._note = note;
+    
     }
 
     // --- Getters (Läs-åtkomst) ---
+    // ÄNDRAD TILL TS-GETTER (t.ex. 'get uuid()')
 
     public get uuid(): string {
         return this._uuid;
@@ -49,6 +51,7 @@ export class CompletedExerciseModel implements CompletedExercise {
     }
 
     // --- Setters (Skriv-åtkomst) ---
+    // ÄNDRAD TILL TS-SETTER (t.ex. 'set uuid()')
     
     public set uuid(value: string) {
         this._uuid = value;

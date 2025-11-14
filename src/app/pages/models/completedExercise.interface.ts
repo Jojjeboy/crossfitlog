@@ -1,4 +1,4 @@
-import { Exercise } from "./excercise.interface"
+import { Exercise } from "./exercise.interface";
 import { CompletedSet } from "./completedSets.interface"
 
 export interface CompletedExercise {
