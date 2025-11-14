@@ -3,12 +3,13 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Dialog } from 'primeng/dialog';
 import { TabsModule } from 'primeng/tabs';
+import { AccordionModule } from 'primeng/accordion';
 import { List } from '../List';
 
 
 @Component({
   selector: 'app-list-completed-exercise-component',
-  imports: [CommonModule, Dialog, TabsModule],
+  imports: [CommonModule, Dialog, TabsModule, AccordionModule],
   templateUrl: './list-completed-exercise-component.html',
   styleUrl: './list-completed-exercise-component.scss'
 })

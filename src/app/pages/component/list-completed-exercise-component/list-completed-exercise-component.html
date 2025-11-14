@@ -11,21 +11,24 @@
             @for (exercise of completedExercises; track $index) {
             <li class="flex items-center py-2 result-item">
                 @if(showGifNr === ($index + 1)){
-                    <div class="w-12 h-12 flex items-center justify-center rounded-full mr-4 shrink-0">
-                        <img [src]="exercise.exercise.gifUrl" width="50" [alt]="exercise.exercise.name"
-                            (click)="toggleGif(($index + 1))" />
-                    </div>
+                <div class="w-12 h-12 flex items-center justify-center rounded-full mr-4 shrink-0">
+                    <img [src]="exercise.exercise.gifUrl" width="50" [alt]="exercise.exercise.name"
+                        (click)="toggleGif(($index + 1))" />
+                </div>
                 }
                 @else {
-                    <div class="w-12 h-12 flex items-center justify-center bg-{{ colors[$index % colors.length] }}-100 dark:bg-{{ colors[$index % colors.length] }}-400/10 rounded-full mr-4 shrink-0">
-                        <i class="pi pi-chevron-right text-xl! text-{{ colors[$index % colors.length] }}-500" (click)="toggleGif(($index + 1))"></i>
-                    </div>
+                <div
+                    class="w-12 h-12 flex items-center justify-center bg-{{ colors[$index % colors.length] }}-100 dark:bg-{{ colors[$index % colors.length] }}-400/10 rounded-full mr-4 shrink-0">
+                    <i class="pi pi-chevron-right text-xl! text-{{ colors[$index % colors.length] }}-500"
+                        (click)="toggleGif(($index + 1))"></i>
+                </div>
                 }
-                <div (click)="showDialog(exercise)"
-                    class="text-surface-900 dark:text-surface-0 leading-normal">{{ exercise.exercise.name | titlecase
+                <div (click)="showDialog(exercise)" class="text-surface-900 dark:text-surface-0 leading-normal">{{
+                    exercise.exercise.name | titlecase
                     }}<br />
                     <div class="mt-1 text-muted-color">{{ exercise.occasion.length}} {{
-                        exercise.occasion.length > 1 ? 'tillfällen' : 'tillfälle' }} / Senast: {{ getLatestOccation(exercise.occasion) | date:"d MMM" }} </div>
+                        exercise.occasion.length > 1 ? 'tillfällen' : 'tillfälle' }} / Senast: {{
+                        getLatestOccation(exercise.occasion) | date:"d MMM" }} </div>
                 </div>
             </li>
             }
@@ -36,12 +39,15 @@
 
 
 <div class="card flex justify-center">
-    <p-dialog header="{{ selectedExcercise?.exercise?.name | titlecase}}" [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <p-dialog header="{{ selectedExcercise?.exercise?.name | titlecase}}" [(visible)]="visible" [modal]="true"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
+        [resizable]="false">
         <div>
             <p-tabs value="0">
                 <p-tablist>
                     <p-tab value="0">Övning</p-tab>
                     <p-tab value="1">Registrera</p-tab>
+                    <p-tab value="2">Tidigare resultat</p-tab>
                 </p-tablist>
                 <p-tabpanels>
                     <p-tabpanel value="0">
@@ -51,16 +57,64 @@
                     </p-tabpanel>
                     <p-tabpanel value="1">
                         <p class="m-0">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem
-                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                            sunt explicabo.
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                            consequuntur magni
-                            dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                            numquam eius
-                            modi.
+                            Registrera resultat
                         </p>
+                    </p-tabpanel>
+                    <p-tabpanel value="2">
+
+                        <div class="flex justify-center">
+                            <p-accordion value="0">
+                                <p-accordion-panel value="0">
+                                    <p-accordion-header>Header I</p-accordion-header>
+                                    <p-accordion-content>
+                                        <p class="m-0">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                            tempor incididunt ut labore et dolore
+                                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                            laboris nisi ut aliquip ex ea commodo
+                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                            cillum dolore eu fugiat nulla
+                                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                            officia deserunt mollit anim id est
+                                            laborum.
+                                        </p>
+                                    </p-accordion-content>
+                                </p-accordion-panel>
+
+                                <p-accordion-panel value="1">
+                                    <p-accordion-header>Header II</p-accordion-header>
+                                    <p-accordion-content>
+                                        <p class="m-0">
+                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                                            doloremque laudantium, totam rem
+                                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                                            beatae vitae dicta sunt explicabo. Nemo
+                                            enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                                            quia consequuntur magni dolores eos
+                                            qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia
+                                            non numquam eius modi.
+                                        </p>
+                                    </p-accordion-content>
+                                </p-accordion-panel>
+
+                                <p-accordion-panel value="2">
+                                    <p-accordion-header>Header III</p-accordion-header>
+                                    <p-accordion-content>
+                                        <p class="m-0">
+                                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                                            praesentium voluptatum deleniti atque corrupti quos dolores et quas
+                                            molestias excepturi sint occaecati cupiditate non provident, similique sunt
+                                            in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
+                                            fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero
+                                            tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+                                        </p>
+                                    </p-accordion-content>
+                                </p-accordion-panel>
+                            </p-accordion>
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel value="1">
+
                     </p-tabpanel>
                 </p-tabpanels>
             </p-tabs>
