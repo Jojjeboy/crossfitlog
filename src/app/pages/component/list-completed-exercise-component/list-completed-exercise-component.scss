@@ -1,9 +1,47 @@
-.p-tabpanels{
+.p-tabpanels {
     padding-left: 0;
     padding-right: 0;
 
-    .p-tabpanel > div{
+    .p-tabpanel>div {
         justify-content: flex-start;
         flex-flow: column;
+    }
+
+
+
+}
+
+table {
+
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+    thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    th,
+    td {
+        padding: 12px 15px;
+        text-align: left;
+        font-size: 16px;
+    }
+}
+
+.chips{
+    margin: 20px 0;
+    .target.p-chip {
+        background: #000;
+        color: #fff;
+    }
+
+    .secondary.p-chip {
+        background: #9b9b9b;
     }
 }

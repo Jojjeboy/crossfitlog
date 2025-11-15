@@ -5,11 +5,18 @@ import { Dialog } from 'primeng/dialog';
 import { TabsModule } from 'primeng/tabs';
 import { AccordionModule } from 'primeng/accordion';
 import { List } from '../List';
+import { TableModule } from 'primeng/table';
+import { TreeTableModule } from "primeng/treetable";
+import { CardModule } from 'primeng/card';
+import { Chip } from 'primeng/chip';
+
+
+
 
 
 @Component({
   selector: 'app-list-completed-exercise-component',
-  imports: [CommonModule, Dialog, TabsModule, AccordionModule],
+  imports: [CommonModule, Dialog, TabsModule, AccordionModule, TableModule, TreeTableModule, CardModule, Chip],
   templateUrl: './list-completed-exercise-component.html',
   styleUrl: './list-completed-exercise-component.scss'
 })
