@@ -19,13 +19,22 @@ import { Badge } from "primeng/badge";
 })
 
 export class OccasionFormComponent implements OnInit {
-  
+
   // Huvudformulärkontrollen
   occasionForm!: FormGroup;
+  maxDate: Date | undefined;
+
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    let today = new Date();
+
+    this.maxDate = new Date();
+    this.maxDate.setDate(today.getDate());
+    this.maxDate.setMonth(today.getMonth());
+    this.maxDate.setFullYear(today.getFullYear());
+
     this.occasionForm = this.fb.group({
       // Vi sätter upp detta som en FormArray för att hantera en lista av tillfällen
       occasions: this.fb.array([
@@ -38,19 +47,19 @@ export class OccasionFormComponent implements OnInit {
   get occasions(): FormArray {
     return this.occasionForm.get('occasions') as FormArray;
   }
-  
+
   // Skapar en FormGroup för ett enskilt CompletedOccasion
   createOccasionGroup(): FormGroup {
     return this.fb.group({
       // date måste vara null/tom för att passa PrimeNG Calendar (Date/string)
-      date: [new Date(), Validators.required], 
+      date: [new Date(), Validators.required],
       note: [''], // Valfri anteckning
       sets: this.fb.array([
         this.createSetGroup() // Starta varje tillfälle med minst ett set
       ])
     });
   }
-  
+
   // Skapar en FormGroup för ett enskilt CompletedSet (reps & weight)
   createSetGroup(): FormGroup {
     return this.fb.group({
@@ -90,9 +99,9 @@ export class OccasionFormComponent implements OnInit {
     if (this.occasionForm.valid) {
       const formValue = this.occasionForm.value;
       console.log('Sparad data:', formValue);
-      
+
       // Här skulle du normalt skicka formValue.occasions till din backend
-      
+
     } else {
       console.error('Formuläret är inte giltigt!');
       // Markera fält som ogiltiga för att visa felmeddelanden

@@ -21,8 +21,8 @@
 
           <div class="p-col-12 p-field">
             <label for="date-{{$index}}">Datum/Tid</label>
-            <p-datepicker [formControlName]="'date'" [showTime]="true" [showSeconds]="false" inputId="date-{{$index}}"
-              [showOtherMonths]="true" placeholder="Välj datum och tid" dateFormat="yy/mm/dd"
+            <p-datepicker [formControlName]="'date'" inputId="date-{{$index}}" [firstDayOfWeek]="1" [maxDate]="maxDate"
+              [showOtherMonths]="false" placeholder="Välj datum och tid" dateFormat="yy/mm/dd"
               appendTo="body"></p-datepicker>
             @if(occasionGroup.get('date')?.invalid && occasionGroup.get('date')?.touched){
                 <small class="p-error">
