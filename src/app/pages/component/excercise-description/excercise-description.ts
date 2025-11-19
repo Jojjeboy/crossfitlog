@@ -1,4 +1,3 @@
-import { CompletedExerciseModel } from '@/pages/models/completedExercise.model';
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChipModule } from 'primeng/chip';

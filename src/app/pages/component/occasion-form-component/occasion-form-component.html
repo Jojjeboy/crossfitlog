@@ -1,5 +1,5 @@
 <div class="p-fluid">
-  <h5>Registrea resultat</h5>
+  <h5>Registrera resultat</h5>
   <form [formGroup]="occasionForm" (ngSubmit)="onSubmit()">
 
     <div formArrayName="occasions">
@@ -48,34 +48,15 @@
 
             @for (setGroup of getSets(occasionGroup).controls; track $index; let j = $index) {
 
-              
-            <div class="grid grid-cols-12 gap-4" >
-              <div class="col-span-6">
-                <div class="column-content-style">
-                  <div class="p-text-bold mb-2" style="font-size: 1.3em; font-weight: 300;">Set {{ j + 1 }}:</div>
-                </div>
-              </div>
-              <div class="col-span-6">
-                <div class="column-content-style flex">
-                  <div class="p-col-fixed flex" style="width: 40px; margin-left: auto;">
-                    <p-button icon="pi pi-times" variant="text" severity="danger"
-                    class="p-button-rounded p-button-danger p-button-text" (click)="removeSet(occasionGroup, j)"
-                    [disabled]="getSets(occasionGroup).length === 1" title="Ta bort detta set"></p-button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            
             
             <div [formGroupName]="j">
-              <div class="grid grid-cols-12 gap-4">
+              <div class="grid grid-cols-12 gap-8">
+                
                 <div class="col-span-6">
                   <div class="column-content-style">
-                    <h5>Reps</h5>
+                    <h5>Reps &nbsp; &nbsp; &nbsp;<span class="text-muted">(Set {{ j + 1 }})</span></h5>
 
                     <div class="p-col p-field">
-                      
                       <p-inputNumber [formControlName]="'reps'" inputId="reps-{{$index}}-{{j}}" mode="decimal"
                         [showButtons]="true" [min]="1" placeholder="Antal">
                       </p-inputNumber>
@@ -91,7 +72,12 @@
 
                 <div class="col-span-6">
                   <div class="column-content-style">
-                    <h5>Vikt</h5>
+                    <h5 style="position: relative;">
+                      Vikt
+                    <p-button icon="pi pi-times" variant="text" class="delete-set" severity="danger"
+                    class="p-button-rounded p-button-danger p-button-text" (click)="removeSet(occasionGroup, j)"
+                    [disabled]="getSets(occasionGroup).length === 1" title="Ta bort detta set"></p-button>
+                    </h5>
 
 
                     <div class="p-col p-field">

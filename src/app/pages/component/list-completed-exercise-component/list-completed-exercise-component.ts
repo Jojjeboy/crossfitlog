@@ -28,16 +28,31 @@ export class ListCompletedExerciseComponent extends List {
   selectedExcercise?: CompletedExerciseModel;
 
   // **Lagt till konstruktor med ChangeDetectorRef**
+  /**
+   * Konstruktor för komponenten.
+   * @param {ChangeDetectorRef} cdr - Angulars ChangeDetectorRef för att manuellt kunna trigga ändringsdetektering.
+   * @param {ExerciseService} exerciseService - Service för att hantera övningsdata.
+   */
   constructor(private cdr: ChangeDetectorRef, private exerciseService: ExerciseService) {
     super();
   }
   
+  /**
+   * Visar en dialogruta för en specifik slutförd övning.
+   * @param {CompletedExerciseModel} completedExercise - Den slutförda övning som ska visas i dialogrutan.
+   * Returnerar ingenting (`void`).
+   */
   showDialog(completedExercise: CompletedExerciseModel) {
       this.visible = true;
       this.selectedExcercise = completedExercise;
   }
 
-  // **Korrigerad för att hantera uppdatering och Change Detection**
+  /**
+   * Hanterar händelsen när ett nytt träningstillfälle har lagts till från formulärkomponenten.
+   * Stänger dialogrutan och triggar ändringsdetektering för att uppdatera vyn.
+   * @param {any} newOccasion - Data om det nya tillfället (används för närvarande inte, men fångar händelsen).
+   * Returnerar ingenting (`void`).
+   */
   occasionAdded(newOccasion: any){
     console.log('Received message from child:', newOccasion);
     
@@ -49,11 +64,21 @@ export class ListCompletedExerciseComponent extends List {
     this.visible = false;
   }
 
+  /**
+   * Visar ett enkelt popup-fönster (alert) med ett meddelande.
+   * @param {string} passsedVal - Textsträngen som ska visas i popup-fönstret.
+   * Returnerar ingenting (`void`).
+   */
   showPopup(passsedVal: string) {
     alert(passsedVal);
   }
 
-  // **Korrigerad för att returnera den senaste DATUMSTRÄNGEN för att | date pipen ska fungera**
+  /**
+   * Hämtar det senaste datumet från en lista av träningstillfällen.
+   * Används för att visa när en övning senast utfördes.
+   * @param {any[]} occasions - En array av träningstillfällen, där varje objekt förväntas ha en `date`-egenskap.
+   * @returns {string} En datumsträng för det senaste tillfället, eller en tom sträng om listan är tom.
+   */
   getLatestOccation(occasions: any): string {
     if (!occasions || occasions.length === 0) {
       return ''; // Returnera tom sträng istället för text, så att | date pipen inte kraschar

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { CompletedOccasion } from '../../models/completedOccasion.interface'
-import { CompletedSet } from "../../models/completedSets.interface";
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -9,8 +8,6 @@ import { ButtonModule } from 'primeng/button';
 import { Badge } from "primeng/badge";
 import { CommonModule } from '@angular/common';
 import { ExerciseService } from '@/pages/service/exercise.service';
-
-
 
 
 @Component({
@@ -30,16 +27,16 @@ export class OccasionFormComponent implements OnInit {
   @Output() notifyParent: EventEmitter<string> = new EventEmitter<string>();
 
 
-
-
   constructor(
     private fb: FormBuilder,
     private exerciseService: ExerciseService
   ) { }
 
   /**
-   * Initializes the component, sets the maximum selectable date to today,
-   * and creates the main form structure.
+   * Initialiserar komponenten.
+   * Sätter maximalt valbart datum till dagens datum och skapar huvudformulärstrukturen.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
    */
   ngOnInit(): void {
     let today = new Date();
@@ -58,18 +55,20 @@ export class OccasionFormComponent implements OnInit {
   }
 
   /**
-   * Getter for easy access to the 'occasions' FormArray from the template.
-   * @returns {FormArray} The FormArray controlling the list of occasions.
+   * Getter för att enkelt komma åt 'occasions' FormArray från mallen.
+   * Inga parametrar.
+   * @returns {FormArray} En FormArray som styr listan med träningstillfällen.
    */
   get occasions(): FormArray {
     return this.occasionForm.get('occasions') as FormArray;
   }
 
   /**
-   * Creates a FormGroup for a single occasion.
-   * Each occasion includes a date, an optional note, and an array of sets.
-   * It starts with one set by default.
-   * @returns {FormGroup} A new FormGroup for an occasion.
+   * Skapar en FormGroup för ett enskilt träningstillfälle.
+   * Varje tillfälle innehåller ett datum, en valfri anteckning och en array av sets.
+   * Startar med ett set som standard.
+   * Inga parametrar.
+   * @returns {FormGroup} En ny FormGroup för ett träningstillfälle.
    */
   createOccasionGroup(): FormGroup {
     return this.fb.group({
@@ -83,9 +82,10 @@ export class OccasionFormComponent implements OnInit {
   }
 
   /**
-   * Creates a FormGroup for a single set, including reps and weight.
-   * Both fields are required.
-   * @returns {FormGroup} A new FormGroup for a set.
+   * Skapar en FormGroup för ett enskilt set, inklusive reps och vikt.
+   * Båda fälten är obligatoriska.
+   * Inga parametrar.
+   * @returns {FormGroup} En ny FormGroup för ett set.
    */
   createSetGroup(): FormGroup {
     return this.fb.group({
@@ -97,15 +97,18 @@ export class OccasionFormComponent implements OnInit {
   // --- Metoder för att manipulera Occasions (Tillfällen) ---
 
   /**
-   * Adds a new occasion group to the 'occasions' FormArray.
+   * Lägger till en ny grupp för ett träningstillfälle i 'occasions' FormArray.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
    */
   addOccasion(): void {
     this.occasions.push(this.createOccasionGroup());
   }
 
   /**
-   * Removes an occasion from the 'occasions' FormArray at a specific index.
-   * @param {number} occasionIndex The index of the occasion to remove.
+   * Tar bort ett träningstillfälle från 'occasions' FormArray vid ett specifikt index.
+   * @param {number} occasionIndex - Index för det tillfälle som ska tas bort.
+   * Returnerar ingenting (`void`).
    */
   removeOccasion(occasionIndex: number): void {
     this.occasions.removeAt(occasionIndex);
@@ -114,26 +117,28 @@ export class OccasionFormComponent implements OnInit {
   // --- Metoder för att manipulera Sets ---
 
   /**
-   * Retrieves the 'sets' FormArray from a given occasion's FormGroup.
-   * @param {AbstractControl} occasionControl The FormGroup for a specific occasion.
-   * @returns {FormArray} The FormArray for the sets within that occasion.
+   * Hämtar 'sets' FormArray från en given FormGroup för ett träningstillfälle.
+   * @param {AbstractControl} occasionControl - FormGroup för ett specifikt tillfälle.
+   * @returns {FormArray} En FormArray för alla sets inom det tillfället.
    */
   getSets(occasionControl: AbstractControl): FormArray {
     return occasionControl.get('sets') as FormArray;
   }
 
   /**
-   * Adds a new set group to the 'sets' FormArray of a specific occasion.
-   * @param {AbstractControl} occasionControl The FormGroup for the occasion where the set will be added.
+   * Lägger till en ny set-grupp i 'sets' FormArray för ett specifikt träningstillfälle.
+   * @param {AbstractControl} occasionControl - FormGroup för det tillfälle där setet ska läggas till.
+   * Returnerar ingenting (`void`).
    */
   addSet(occasionControl: AbstractControl): void {
     this.getSets(occasionControl).push(this.createSetGroup());
   }
 
   /**
-   * Removes a set from the 'sets' FormArray of a specific occasion.
-   * @param {AbstractControl} occasionControl The FormGroup for the occasion.
-   * @param {number} setIndex The index of the set to remove.
+   * Tar bort ett set från 'sets' FormArray för ett specifikt träningstillfälle.
+   * @param {AbstractControl} occasionControl - FormGroup för tillfället.
+   * @param {number} setIndex - Index för det set som ska tas bort.
+   * Returnerar ingenting (`void`).
    */
   removeSet(occasionControl: AbstractControl, setIndex: number): void {
     this.getSets(occasionControl).removeAt(setIndex);
@@ -141,9 +146,9 @@ export class OccasionFormComponent implements OnInit {
 
 
   /**
-   * Counts the number of sets within a given occasion's FormGroup.
-   * @param {AbstractControl} occasionControl The FormGroup for a specific occasion.
-   * @returns {number} The total number of sets for that occasion.
+   * Räknar antalet sets inom en given FormGroup för ett träningstillfälle.
+   * @param {AbstractControl} occasionControl - FormGroup för ett specifikt tillfälle.
+   * @returns {number} Det totala antalet sets för det tillfället.
    */
   countSets(occasionControl: AbstractControl): number {
     const sets = this.getSets(occasionControl).value;
@@ -154,9 +159,12 @@ export class OccasionFormComponent implements OnInit {
   }
 
   /**
-   * Handles the form submission.
-   * If the form is valid, it logs the form data.
-   * If the form is invalid, it logs an error and marks all fields as touched to display validation errors.
+   * Hanterar formulärinskickning.
+   * Om formuläret är giltigt, loggas datan och skickas till `ExerciseService`.
+   * Därefter återställs formuläret och en notifiering skickas till förälderkomponenten.
+   * Om formuläret är ogiltigt, loggas ett fel och alla fält markeras som "touched" för att visa valideringsfel.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
    */
   onSubmit(): void {
     if (this.occasionForm.valid) {

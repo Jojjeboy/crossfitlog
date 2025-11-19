@@ -6,9 +6,6 @@
         justify-content: flex-start;
         flex-flow: column;
     }
-
-
-
 }
 
 .prev-result{
@@ -17,7 +14,7 @@
     }
     table {
 
-        border-collapse: collapse;
+        border-collapse: collapse; 
         margin: 3px 0 25px 0;
         font-size: 0.9em;
         font-family: sans-serif;
@@ -43,18 +40,7 @@
     }
 }
 
-.chips {
-    margin: 20px 0;
 
-    .target.p-chip {
-        background: #000;
-        color: #fff;
-    }
-
-    .secondary.p-chip {
-        background: #9b9b9b;
-    }
-}
 
 
 .emphasize {
