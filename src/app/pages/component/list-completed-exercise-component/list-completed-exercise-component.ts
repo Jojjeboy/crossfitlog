@@ -31,6 +31,10 @@ export class ListCompletedExerciseComponent extends List {
       this.selectedExcercise = completedExercise;
   }
 
+  occasionAdded(message: string){
+    console.log('Received message from child:', message);
+  }
+
   showPopup(passsedVal: string) {
     alert(passsedVal);
   }

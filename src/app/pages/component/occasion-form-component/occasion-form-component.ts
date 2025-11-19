@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { CompletedOccasion } from '../../models/completedOccasion.interface'
 import { CompletedSet } from "../../models/completedSets.interface";
@@ -27,6 +27,8 @@ export class OccasionFormComponent implements OnInit {
   maxDate: Date | undefined;
 
   @Input() lookUpId?: string;
+  @Output() notifyParent: EventEmitter<string> = new EventEmitter<string>();
+
 
 
 
@@ -163,6 +165,9 @@ export class OccasionFormComponent implements OnInit {
       this.exerciseService.addCompletedExercise(this.lookUpId as string, formValue.occasions);
 
       // Här skulle du normalt skicka formValue.occasions till din backend
+      this.occasionForm.reset();
+      this.notifyParent.emit('asd');
+
 
     } else {
       console.error('Formuläret är inte giltigt!');
