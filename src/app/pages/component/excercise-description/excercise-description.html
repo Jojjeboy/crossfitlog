@@ -3,7 +3,6 @@
         <ng-template #header>
             <img alt="Card" class="w-full" [src]="selectedExcercise?.gifUrl" />
         </ng-template>
-        <ng-template #title> {{ selectedExcercise?.name | titlecase}} </ng-template>
         <ng-template #subtitle>
             <div class="flex">
                 <span class="span-flex-50 col-span-6 w-full text-xl text-muted-color">{{ selectedExcercise?.bodyParts?.join(', ') | titlecase }} trained with {{ selectedExcercise?.equipments?.join(',') }}</span>

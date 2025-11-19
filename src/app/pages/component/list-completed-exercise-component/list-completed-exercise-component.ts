@@ -12,6 +12,7 @@ import { ChipModule } from 'primeng/chip';
 import { OccasionFormComponent } from "../occasion-form-component/occasion-form-component";
 import { ExerciseService } from '@/pages/service/exercise.service';
 import { ExcerciseDescription } from "../excercise-description/excercise-description";
+import { ExerciseModel } from '@/pages/models/exercise.model';
 
 
 
@@ -24,7 +25,7 @@ import { ExcerciseDescription } from "../excercise-description/excercise-descrip
 export class ListCompletedExerciseComponent extends List {
 
   visible: boolean = false;
-  @Input() completedExercises?: CompletedExerciseModel[] | null;
+  @Input() completedExercises?: CompletedExerciseModel[];
   selectedExcercise?: CompletedExerciseModel;
 
   // **Lagt till konstruktor med ChangeDetectorRef**
@@ -100,5 +101,19 @@ export class ListCompletedExerciseComponent extends List {
 
     // Returnera datumsträngen från det senaste tillfälle-objektet
     return latestOccasion.date;
+  }
+
+  isFavourite(exerciseId: string | undefined): boolean {
+    if (exerciseId !== undefined) {
+      return this.exerciseService.isExerciseInFavorites(exerciseId);
+    }
+    return false
+
+  }
+
+  toggleFavourite(exercise: ExerciseModel | undefined){
+    if(exercise !== undefined){
+      this.exerciseService.toggleFavourite(exercise);
+    }
   }
 }

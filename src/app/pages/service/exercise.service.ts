@@ -18,14 +18,18 @@ export class ExerciseService implements OnDestroy{
   private exercisesFromDb: ExerciseModel[] = [];
   private completedExercises: ExerciseModel[] = [];
   private exercisesCompleted: CompletedExerciseModel[] = [];
+  private favouriteExercises: ExerciseModel[] = [];
   private isLoaded = false;
 
 
   private readonly key = 'completedExercises';
+  private readonly favKey = 'favouriteExercises';
   private exercisesSubject = new BehaviorSubject<ExerciseModel[]>([]);
   private completedExerciseSubject = new BehaviorSubject<CompletedExerciseModel[]>([]);
+  private favouriteExerciseSubject = new BehaviorSubject<ExerciseModel[]>([]);
   exercises$ = this.exercisesSubject.asObservable();
   completedExercise$ = this.completedExerciseSubject.asObservable();
+  favouriteExercise$ = this.favouriteExerciseSubject.asObservable();
   private storageSub?: Subscription;
 
 
@@ -120,9 +124,11 @@ export class ExerciseService implements OnDestroy{
    * @param {string} id - ID för den slutförda övningen att hämta.
    * @returns {CompletedExerciseModel | undefined} Det matchande `CompletedExerciseModel`-objektet, eller `undefined` om det inte hittas.
    */
-  getCompletedExcerciseById(id: string): CompletedExerciseModel | undefined {
-    return this.exercisesCompleted.find(item => item.lookupId === id);
+  getCompletedExcerciseById(id: string): ExerciseModel | undefined {
+    return this.favouriteExercises.find(item => item.exerciseId === id);
   }
+
+  
 
   /**
    * Filtrerar övningar baserat på ett sökord.
@@ -255,6 +261,27 @@ export class ExerciseService implements OnDestroy{
     this.saveCompletedExercises();
   }
 
+
+
+  toggleFavourite(exercise: ExerciseModel): void {
+    const currentFavourites = this.favouriteExerciseSubject.getValue();
+    const existingExercise = currentFavourites.find(e => e.exerciseId === exercise.exerciseId);
+
+    if (!existingExercise) {
+      this.favouriteExerciseSubject.next([...currentFavourites, exercise]);
+    }
+    else {
+      this.favouriteExerciseSubject.next(currentFavourites.filter(e => e.exerciseId !== exercise.exerciseId));
+    }
+    this.saveFavouriteExercises();
+
+  }
+
+  isExerciseInFavorites(id: string): boolean {
+    const favoriteExercises = this.favouriteExerciseSubject.getValue();
+    return favoriteExercises.some(exercise => exercise.exerciseId === id);
+  }
+
   /**
    * Sparar den nuvarande listan av slutförda övningar till webbläsarens lokala lagring.
    * Datan omvandlas till ett format som är lämpligt för JSON-serialisering.
@@ -270,6 +297,23 @@ export class ExerciseService implements OnDestroy{
       occasion: model.occasion,
     }));
     this.storageService.set(this.key, dataToSave);
+  }
+
+
+  private saveFavouriteExercises(): void {
+    const favouriteExercises = this.favouriteExerciseSubject.getValue();
+    const dataToSave = favouriteExercises.map(model => ({ 
+      exerciseId: model.exerciseId,
+      name: model.name,
+      gifUrl: model.gifUrl,
+      equipments: model.equipments,
+      bodyParts: model.bodyParts,
+      targetMuscles: model.targetMuscles,
+      secondaryMuscles: model.secondaryMuscles,
+      instructions: model.instructions,
+    }));
+    
+    this.storageService.set(this.favKey, dataToSave);
   }
 
   /**

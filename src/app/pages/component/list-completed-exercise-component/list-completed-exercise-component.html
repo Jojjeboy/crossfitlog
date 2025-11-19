@@ -33,15 +33,24 @@
 
 
 <div class="flex justify-center">
-    <p-dialog header="{{ selectedExcercise?.exercise?.name | titlecase}}" [(visible)]="visible" [modal]="true"
+    <p-dialog header="{{ selectedExcercise?.exercise?.name | titlecase }}" [(visible)]="visible" [modal]="true"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" [draggable]="false"
-        [resizable]="false">
+        [resizable]="false"> 
         <div>
             <p-tabs value="0">
                 <p-tablist>
                     <p-tab value="0">Övning</p-tab>
                     <p-tab value="1">Logga</p-tab>
                     <p-tab value="2">Tidigare resultat</p-tab>
+                    
+                    <p-tab value="0">
+                        @if(isFavourite(selectedExcercise?.exercise?.exerciseId)){
+                            <i class="pi pi-star-fill" (click)="toggleFavourite(selectedExcercise?.exercise)" style="color: orange"></i>
+                        } 
+                        @else {
+                            <i class="pi pi-star" (click)="toggleFavourite(selectedExcercise?.exercise)"></i>
+                        }
+                        </p-tab>
                 </p-tablist>
                 <p-tabpanels>
                     <p-tabpanel value="0">
