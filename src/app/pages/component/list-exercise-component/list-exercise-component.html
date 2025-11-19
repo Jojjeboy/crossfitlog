@@ -1,8 +1,6 @@
 @if(exercises !== undefined && exercises.length > 0){
 <div class="search-results">
     <div class="col-span-12 xl:col-span-6">
-
-        <span class="block text-muted-color font-medium">Sökresultat</span>
         <ul class="p-0 mx-0 mt-0 mb-6 list-none">
 
             @for (exercise of exercises; track $index) {
@@ -31,6 +29,7 @@
 </div>
 }
 
+@if(visible){
 <div class="card flex justify-center">
     <p-dialog header="{{ selectedExcercise?.name | titlecase}}" [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
         [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
@@ -57,3 +56,4 @@
         </div>
     </p-dialog>
 </div>
+}

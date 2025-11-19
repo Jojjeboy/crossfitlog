@@ -1,12 +1,7 @@
-<pre>
-    <!-- {{completedExercises | json }} -->
-</pre>
-
-
 @if(completedExercises !== null){
 <div class="search-results">
     <div class="col-span-12 xl:col-span-6">
-        <ul class="p-0 mx-0 mt-0 mb-6 list-none">
+        <ul class="p-0 mx-0 mt-4 list-none">
             @for (exercise of completedExercises; track $index) {
             <li class="flex items-center py-2 result-item">
                 @if(showGifNr === ($index + 1)){

@@ -1,57 +1,39 @@
 <div class="card">
     <div class="flex justify-between items-center mb-6">
-        <div class="font-semibold text-xl"> Sök bland övningar</div>
+        <div class="font-semibold text-xl">Sök bland övningar</div>
     </div>
 
-    <app-search-exercise-component></app-search-exercise-component>
+    <div class="search">
+        <div class="flex flex-col gap-2">
+            <input [formControl]="searchControl" (keyup)="onSearchChange()" class="search-input" type="text" placeholder="Minst 3 tecken för att söka" />
+            @if(searchControl.value.length > 0){
+            <i class="pi pi-times" (click)="clearSearch(); clearResults()"></i>
+            }
+        </div>
+    </div>
 
 
+    @if(searchResults !== null && searchResults.length > 0) {
+        <app-list-exercise-component [exercises]="searchResults"></app-list-exercise-component>
+    }
+
+
+
+    
+</div>
+
+<div class="card">
     <div class="flex justify-between items-center">
         <div class="font-semibold text-xl">Loggade övningar</div>
     </div>
 
-    <app-list-completed-exercise-component
-        [completedExercises]="completedExercise$ | async"></app-list-completed-exercise-component>
+    <app-list-completed-exercise-component [completedExercises]="completedExercise$ | async"></app-list-completed-exercise-component>
+</div>
 
+<div class="card">
+    <div class="flex justify-between items-center">
+        <div class="font-semibold text-xl">Favoritövningar</div>
+    </div>
 
-
-    <!--
-        {
-        "uuid": "d0b2f757-af89-41eb-a78d-c02abd724342",
-        "exercise": {
-            "exerciseId": "LMGXZn8",
-            "name": "barbell decline close grip to skull press",
-            "gifUrl": "https://static.exercisedb.dev/media/LMGXZn8.gif",
-            "targetMuscles": [
-                "triceps"
-            ],
-            "bodyParts": [
-                "upper arms"
-            ],
-            "equipments": [
-                "barbell"
-            ],
-            "secondaryMuscles": [
-                "chest",
-                "shoulders"
-            ],
-            "instructions": [
-                "Step:1 Lie on a decline bench with your head lower than your feet and hold a barbell with a close grip.",
-                "Step:2 Lower the barbell towards your forehead by bending your elbows, keeping your upper arms stationary.",
-                "Step:3 Pause for a moment, then extend your arms to press the barbell back up to the starting position.",
-                "Step:4 Repeat for the desired number of repetitions."
-            ]
-        },
-        "date": "2025-11-02T12:00:00Z",
-        "sets": [
-            {
-                "reps": 4,
-                "weight": 60,
-                "note": "Lätt, du kan mer"
-            }
-        ]
-    },
-        -->
-
-
+    <app-list-completed-exercise-component [completedExercises]="completedExercise$ | async"></app-list-completed-exercise-component>
 </div>
