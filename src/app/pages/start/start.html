@@ -6,7 +6,7 @@
     <div class="search">
         <div class="flex flex-col gap-2">
             <input [formControl]="searchControl" (keyup)="onSearchChange()" class="search-input" type="text" placeholder="Minst 3 tecken för att söka" />
-            @if(searchControl.value.length > 0){
+            @if(searchControl.value && searchControl.value.length > 0){
             <i class="pi pi-times" (click)="clearSearch(); clearResults()"></i>
             }
         </div>
@@ -27,7 +27,9 @@
         <div class="font-semibold text-xl">Loggade övningar</div>
     </div>
 
-    <app-list-completed-exercise-component [completedExercises]="completedExercise$ | async"></app-list-completed-exercise-component>
+    @if(completedExercise$ | async; as completedExercises) {
+        <app-list-completed-exercise-component [completedExercises]="completedExercises"></app-list-completed-exercise-component>
+    }
 </div>
 
 <div class="card">
@@ -35,5 +37,7 @@
         <div class="font-semibold text-xl">Favoritövningar</div>
     </div>
 
-    <app-list-completed-exercise-component [completedExercises]="completedExercise$ | async"></app-list-completed-exercise-component>
+    @if(favouriteExercise$ | async; as favouriteExercises) {
+        <app-list-exercise-component [exercises]="favouriteExercises"></app-list-exercise-component>
+    }
 </div>

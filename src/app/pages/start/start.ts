@@ -45,12 +45,14 @@ import { ExerciseModel } from '../models/exercise.model';
 })
 export class Start  {
     completedExercise$: Observable<CompletedExerciseModel[]>; // Deklarera en observable
+    favouriteExercise$: Observable<ExerciseModel[]>; // Deklarera en observable
 
     constructor(
         private exerciseService: ExerciseService
     ) {
         // Tilldela Observable i konstruktorn
         this.completedExercise$ = this.exerciseService.completedExercise$;
+        this.favouriteExercise$ = this.exerciseService.favouriteExercise$;
     }
 
     searchControl = new FormControl<string>('', {

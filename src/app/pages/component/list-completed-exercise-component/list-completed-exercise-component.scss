@@ -2,19 +2,21 @@
     padding-left: 0;
     padding-right: 0;
 
-    .p-tabpanel>div {
+    .p-tabpanel > div {
         justify-content: flex-start;
         flex-flow: column;
     }
 }
+.pi-star-fill {
+    color: orange;
+}
 
-.prev-result{
-    h5{
+.prev-result {
+    h5 {
         margin-bottom: 0;
     }
     table {
-
-        border-collapse: collapse; 
+        border-collapse: collapse;
         margin: 3px 0 25px 0;
         font-size: 0.9em;
         font-family: sans-serif;
@@ -40,9 +42,6 @@
     }
 }
 
-
-
-
 .emphasize {
     padding-bottom: 3px;
     border-left: 4px solid #ccc;
@@ -53,16 +52,12 @@
     width: 49%;
 }
 
-
-.span-flex-50{
+.span-flex-50 {
     border-left: 1px solid #999;
     padding-left: 6px;
     font-size: 15px;
 }
 
-
-
-
-.p-ripple.p-tab:first-child{
+.p-ripple.p-tab:first-child {
     padding-left: 0;
 }

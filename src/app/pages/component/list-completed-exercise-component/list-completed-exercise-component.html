@@ -45,7 +45,7 @@
                     
                     <p-tab value="0">
                         @if(isFavourite(selectedExcercise?.exercise?.exerciseId)){
-                            <i class="pi pi-star-fill" (click)="toggleFavourite(selectedExcercise?.exercise)" style="color: orange"></i>
+                            <i class="pi pi-star-fill" (click)="toggleFavourite(selectedExcercise?.exercise)" ></i>
                         } 
                         @else {
                             <i class="pi pi-star" (click)="toggleFavourite(selectedExcercise?.exercise)"></i>

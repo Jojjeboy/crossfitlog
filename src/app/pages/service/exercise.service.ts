@@ -61,6 +61,10 @@ export class ExerciseService implements OnDestroy{
     // Mappningen anropar toCompletedExerciseModel som anropar getItemById
     const models = raw ? raw.map(w => this.toCompletedExerciseModel(w)) : [];
     this.completedExerciseSubject.next(models);
+
+    const rawFav = this.storageService.ensureArrayExists<Exercise>(this.favKey);
+    const modelsFav = rawFav ? rawFav.map(wF => this.toExerciseModel(wF)) : [];
+    this.favouriteExerciseSubject.next(modelsFav);
   }
 
   /**
@@ -88,6 +92,7 @@ export class ExerciseService implements OnDestroy{
       }
     );
   }
+
 
   /**
    * Hämtar all övningsdata som finns lagrad i minnet.

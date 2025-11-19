@@ -25,7 +25,7 @@ import { ExerciseModel } from '@/pages/models/exercise.model';
 export class ListCompletedExerciseComponent extends List {
 
   visible: boolean = false;
-  @Input() completedExercises?: CompletedExerciseModel[];
+  @Input() completedExercises: CompletedExerciseModel[] = [];
   selectedExcercise?: CompletedExerciseModel;
 
   // **Lagt till konstruktor med ChangeDetectorRef**

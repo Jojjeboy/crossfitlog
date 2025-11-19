@@ -16,7 +16,7 @@ import { ExcerciseDescription } from "../excercise-description/excercise-descrip
 })
 export class ListExerciseComponent extends List{
 
-  @Input() exercises?: ExerciseModel[];
+  @Input() exercises: ExerciseModel[] = [];
   visible: boolean = false;
   selectedExcercise?: ExerciseModel;
   
