@@ -162,11 +162,15 @@ export class OccasionFormComponent implements OnInit {
     if (this.occasionForm.valid) {
       const formValue = this.occasionForm.value;
       console.log('Sparad data:', formValue);
-      this.exerciseService.addCompletedExercise(this.lookUpId as string, formValue.occasions);
+
+      const occasions: CompletedOccasion[] = formValue.occasions;
+      occasions.forEach(occasion => {
+        this.exerciseService.addCompletedExercise(this.lookUpId as string, occasion);
+      });
 
       // Här skulle du normalt skicka formValue.occasions till din backend
       this.occasionForm.reset();
-      this.notifyParent.emit('asd');
+      this.notifyParent.emit(formValue.toString());
 
 
     } else {
@@ -175,7 +179,5 @@ export class OccasionFormComponent implements OnInit {
       this.occasionForm.markAllAsTouched();
     }
   }
-
-
 
 }

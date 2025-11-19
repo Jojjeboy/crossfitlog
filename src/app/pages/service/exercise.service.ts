@@ -92,6 +92,10 @@ export class ExerciseService implements OnDestroy{
     return this.exercisesFromDb.find(item => item.exerciseId === id);
   }
 
+  
+  getCompletedExcerciseById(id: string): CompletedExerciseModel | undefined {
+    return this.exercisesCompleted.find(item => item.lookupId === id);
+  }
 
   /**
    * Filtrerar Item från den laddade datan baserat på en söksträng i 'name'-attributet.
@@ -179,17 +183,23 @@ export class ExerciseService implements OnDestroy{
       return;
     }
 
-    // Create a new model for the completed exercise.
-    const newCompletedExercise = new CompletedExerciseModel(
-      crypto.randomUUID(), // Generate a unique ID for this completion
-      lookupId,
-      exercise,
-      []
-    );
-    newCompletedExercise.addOccasion(occasion);
-
     const currentCompleted = this.completedExerciseSubject.getValue();
-    this.completedExerciseSubject.next([...currentCompleted, newCompletedExercise]);
+    const existingExercise = currentCompleted.find(e => e.lookupId === lookupId);
+
+    if (existingExercise) {
+      existingExercise.addOccasion(occasion);
+      this.completedExerciseSubject.next([...currentCompleted]);
+    } else {
+      // Create a new model for the completed exercise.
+      const newCompletedExercise = new CompletedExerciseModel(
+        crypto.randomUUID(), // Generate a unique ID for this completion
+        lookupId,
+        exercise,
+        []
+      );
+      newCompletedExercise.addOccasion(occasion);
+      this.completedExerciseSubject.next([...currentCompleted, newCompletedExercise]);
+    }
   }
 
   private toExerciseModel(exercise: Exercise): ExerciseModel {

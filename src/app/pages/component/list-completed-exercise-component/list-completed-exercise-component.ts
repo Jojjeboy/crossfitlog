@@ -1,5 +1,5 @@
 import { CompletedExerciseModel } from '@/pages/models/completedExercise.model';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core'; // **Lagt till ChangeDetectorRef**
 import { CommonModule } from '@angular/common';
 import { Dialog } from 'primeng/dialog';
 import { TabsModule } from 'primeng/tabs';
@@ -10,6 +10,7 @@ import { TreeTableModule } from "primeng/treetable";
 import { CardModule } from 'primeng/card';
 import { Chip } from 'primeng/chip';
 import { OccasionFormComponent } from "../occasion-form-component/occasion-form-component";
+import { ExerciseService } from '@/pages/service/exercise.service';
 
 
 
@@ -25,33 +26,53 @@ export class ListCompletedExerciseComponent extends List {
   @Input() completedExercises?: CompletedExerciseModel[] | null;
   selectedExcercise?: CompletedExerciseModel;
 
+  // **Lagt till konstruktor med ChangeDetectorRef**
+  constructor(private cdr: ChangeDetectorRef, private exerciseService: ExerciseService) {
+    super();
+  }
   
   showDialog(completedExercise: CompletedExerciseModel) {
       this.visible = true;
       this.selectedExcercise = completedExercise;
   }
 
-  occasionAdded(message: string){
-    console.log('Received message from child:', message);
+  // **Korrigerad för att hantera uppdatering och Change Detection**
+  occasionAdded(newOccasion: any){
+    console.log('Received message from child:', newOccasion);
+    
+    if (this.selectedExcercise) {
+      // Valfritt, men kan vara bra i kombination med PrimeNG-komponenter
+      this.cdr.detectChanges();
+    }
+
+    this.visible = false;
   }
 
   showPopup(passsedVal: string) {
     alert(passsedVal);
   }
 
-  getLatestOccation(occasions: any){
-    return occasions.reduce((latest:any, current:any) => {
-        // Skapa Date-objekt från datumsträngarna för att kunna jämföra dem
+  // **Korrigerad för att returnera den senaste DATUMSTRÄNGEN för att | date pipen ska fungera**
+  getLatestOccation(occasions: any): string {
+    if (!occasions || occasions.length === 0) {
+      return ''; // Returnera tom sträng istället för text, så att | date pipen inte kraschar
+    }
+
+    // Använd reduce för att hitta Hela tillfälle-objektet med det senaste datumet
+    const latestOccasion = occasions.reduce((latest: any, current: any) => {
+        // Skapa Date-objekt för jämförelse
         const latestDate = new Date(latest.date);
         const currentDate = new Date(current.date);
 
-        // Om det aktuella datumet är senare (större) än det hittills senaste,
-        // returnera det aktuella objektet.
+        // Jämför de faktiska Date-objekten och returnera det objekt vars datum är senare.
         if (currentDate > latestDate) {
-            return current.date;
+            return current; // Returnera Hela 'current' objektet
         } else {
-            return latest.date;
+            return latest; // Returnera Hela 'latest' objektet
         }
     });
+
+    // Returnera datumsträngen från det senaste tillfälle-objektet
+    return latestOccasion.date;
   }
 }

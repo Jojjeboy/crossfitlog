@@ -32,7 +32,7 @@ export class CompletedExerciseModel implements CompletedExercise {
     }
 
     public get lookupId(): string {
-        return this.lookupId;
+        return this._lookupId;
     }
 
     public get exercise(): IExercise {
