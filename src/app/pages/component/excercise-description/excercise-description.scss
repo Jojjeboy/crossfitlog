@@ -1,0 +1,9 @@
+.instructions{
+    li {
+        padding: 10px;
+        font-size: 15px;
+        &:nth-child(odd) {
+            background-color: #e7e7e7;
+        }
+    }
+}

@@ -33,11 +33,18 @@ export class ExerciseService implements OnDestroy{
     private http: HttpClient, 
     private storageService: StorageService
   ) {
-    // VI BEHÅLLER DENNA: Övningsdata måste starta laddningen direkt
+    // Listan över alla övningar som finns ligger i exercise.json. Den behöver laddas in
     this.loadDataFromDB();
     this.listenToStorageChanges();
   }
 
+  /**
+   * Laddar slutförda övningar från webbläsarens lokala lagring (localStorage).
+   * Metoden verifierar först att övningsdatabasen är laddad för att kunna mappa historik korrekt.
+   * Den transformerar rådata till `CompletedExerciseModel`-instanser.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
+   */
   loadFromStorage(): void{
     // Vi kollar först om övningsdatabasen är laddad, annars kan vi inte mappa historik korrekt.
     if (!this.isLoaded) {
@@ -52,7 +59,13 @@ export class ExerciseService implements OnDestroy{
     this.completedExerciseSubject.next(models);
   }
 
-  // En metod för att ladda datan från db (jsonfil i detta fallet)
+  /**
+   * Laddar övningsdata från en JSON-fil.
+   * Datan omvandlas till `ExerciseModel`-instanser och lagras i minnet.
+   * Efter att datan har laddats, anropas `loadFromStorage` för att ladda historik.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
+   */
   loadDataFromDB(): void {
     this.http.get<Exercise[]>(this.jsonUrl).pipe(
       map(rawExercises => rawExercises.map(w => this.toExerciseModel(w)))
@@ -72,36 +85,50 @@ export class ExerciseService implements OnDestroy{
     );
   }
 
-  // En metod för att hämta den laddade datan
+  /**
+   * Hämtar all övningsdata som finns lagrad i minnet.
+   * Inga parametrar.
+   * @returns {ExerciseModel[]} En array med alla `ExerciseModel`-objekt.
+   */
   getDataFromDB(): ExerciseModel[] {
     return this.exercisesFromDb
   }
 
-  // Sätter datan i minnet
+  /**
+   * Sparar en array av övningsdata i minnet och markerar datan som laddad.
+   * @param {ExerciseModel[]} data - En array av `ExerciseModel`-objekt att spara.
+   * Returnerar ingenting (`void`).
+   */
   setData(data: ExerciseModel[]): void {
     this.exercisesFromDb = data;
     this.isLoaded = true;
   }
 
-
-  // Hämta ett objekt baserat på dess sträng id
-  // Ändrad returtyp till ExerciseModel för ökad tydlighet internt i servicen
+  /**
+   * Hämtar ett specifikt övningsobjekt baserat på dess ID.
+   * @param {string} id - ID för övningen som ska hämtas.
+   * @returns {ExerciseModel | undefined} Det matchande `ExerciseModel`-objektet, eller `undefined` om det inte hittas.
+   */
   getItemById(id: string): ExerciseModel | undefined {
     // this.exercisesFromDb är nu garanterat laddad/satt (även om den är tom) 
     // när loadFromStorage körs.
     return this.exercisesFromDb.find(item => item.exerciseId === id);
   }
 
-  
+  /**
+   * Hämtar en specifik slutförd övning baserat på dess ID.
+   * @param {string} id - ID för den slutförda övningen att hämta.
+   * @returns {CompletedExerciseModel | undefined} Det matchande `CompletedExerciseModel`-objektet, eller `undefined` om det inte hittas.
+   */
   getCompletedExcerciseById(id: string): CompletedExerciseModel | undefined {
     return this.exercisesCompleted.find(item => item.lookupId === id);
   }
 
   /**
-   * Filtrerar Item från den laddade datan baserat på en söksträng i 'name'-attributet.
-   * Sökningen är skiftlägesokänslig (case-insensitive).
-   * @param searchTerm Strängen att söka efter.
-   * @returns ExerciseModel[] En array med matchande objekt.
+   * Filtrerar övningar baserat på ett sökord.
+   * Sökningen är skiftlägesokänslig och matchar mot övningens namn.
+   * @param {string} searchTerm - Sökordet som ska användas för filtrering.
+   * @returns {ExerciseModel[]} En array med `ExerciseModel`-objekt som matchar sökordet. Om sökordet är tomt returneras alla övningar.
    */
   filterItemsByName(searchTerm: string): ExerciseModel[] {
     if (!searchTerm || searchTerm.trim() === '') {
@@ -117,19 +144,35 @@ export class ExerciseService implements OnDestroy{
     });
   }
 
-  // Svarar på om datan är laddad
+  /**
+   * Kontrollerar om den initiala övningsdatan har laddats från JSON-filen.
+   * Inga parametrar.
+   * @returns {boolean} `true` om datan är laddad, annars `false`.
+   */
   getIsLoaded(): boolean {
     return this.isLoaded;
   }
 
-
+  /**
+   * Lyssnar efter ändringar i webbläsarens lokala lagring (localStorage).
+   * Om en ändring sker för nyckeln 'completedExercises', anropas `loadFromStorage` för att synkronisera tillståndet.
+   * Metoden är privat och anropas endast från konstruktorn.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
+   */
   private listenToStorageChanges(): void {
     this.storageSub = fromEvent<StorageEvent>(window, 'storage')
       .pipe(filter(event => event.key === this.key))
       .subscribe(() => this.loadFromStorage());
   }
 
-  // NY METOD: Skapar en tom ExerciseModel som fallback om data saknas
+  /**
+   * Skapar en tom `ExerciseModel` som används som fallback om en övning inte kan hittas.
+   * Detta förhindrar krascher om historikdata refererar till ett borttaget övnings-ID.
+   * Metoden är privat.
+   * Inga parametrar.
+   * @returns {ExerciseModel} En instans av `ExerciseModel` med standardvärden för en saknad övning.
+   */
   private createEmptyExerciseModel(): ExerciseModel {
       return new ExerciseModel(
           'missing-id', 
@@ -143,7 +186,14 @@ export class ExerciseService implements OnDestroy{
       );
   }
 
-  // KORRIGERING: Returtypen måste vara CompletedExerciseModel för att matcha arrayen den fyller
+  /**
+   * Omvandlar ett rått `CompletedExercise`-objekt från lagring till en `CompletedExerciseModel`.
+   * Metoden kopplar den slutförda övningen till dess fullständiga övningsdata (`ExerciseModel`).
+   * Om övningsdatan inte hittas används en tom fallback-modell.
+   * Metoden är privat.
+   * @param {CompletedExercise} completedExercise - Det råa objektet från lagring.
+   * @returns {CompletedExerciseModel} En fullständig instans av `CompletedExerciseModel`.
+   */
   private toCompletedExerciseModel(completedExercise: CompletedExercise): CompletedExerciseModel {
     // 1. Deklarera variabeln i förväg
     let exerciseToDisplay: ExerciseModel | undefined;
@@ -171,10 +221,12 @@ export class ExerciseService implements OnDestroy{
   }
 
   /**
-   * Creates a new CompletedExerciseModel from an occasion and adds it to the state.
-   * This method updates the completedExerciseSubject with the new list of completed exercises.
-   * @param {string} exerciseId The ID of the exercise that was completed.
-   * @param {CompletedOccasion} occasion The completed occasion data.
+   * Lägger till ett nytt slutfört träningstillfälle för en övning.
+   * Om övningen redan har slutförts tidigare, läggs det nya tillfället till i historiken.
+   * Annars skapas en ny post för den slutförda övningen.
+   * @param {string} lookupId - ID för övningen som slutfördes.
+   * @param {CompletedOccasion} occasion - Data om det slutförda träningstillfället (datum, set, etc.).
+   * Returnerar ingenting (`void`).
    */
   addCompletedExercise(lookupId: string, occasion: CompletedOccasion): void {
     const exercise = this.getItemById(lookupId);
@@ -203,6 +255,13 @@ export class ExerciseService implements OnDestroy{
     this.saveCompletedExercises();
   }
 
+  /**
+   * Sparar den nuvarande listan av slutförda övningar till webbläsarens lokala lagring.
+   * Datan omvandlas till ett format som är lämpligt för JSON-serialisering.
+   * Metoden är privat.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
+   */
   private saveCompletedExercises(): void {
     const completedExercises = this.completedExerciseSubject.getValue();
     const dataToSave = completedExercises.map(model => ({
@@ -213,6 +272,12 @@ export class ExerciseService implements OnDestroy{
     this.storageService.set(this.key, dataToSave);
   }
 
+  /**
+   * Omvandlar ett rått `Exercise`-objekt (från JSON) till en `ExerciseModel`.
+   * Metoden är privat och används för att standardisera övningsdata internt.
+   * @param {Exercise} exercise - Det råa övningsobjektet.
+   * @returns {ExerciseModel} En instans av `ExerciseModel`.
+   */
   private toExerciseModel(exercise: Exercise): ExerciseModel {
     return new ExerciseModel(
       exercise.exerciseId,
@@ -226,7 +291,12 @@ export class ExerciseService implements OnDestroy{
     );
   }
 
-
+  /**
+   * Städar upp prenumerationer när komponenten förstörs för att förhindra minnesläckor.
+   * Inga parametrar.
+   * Returnerar ingenting (`void`).
+   * @returns void
+   */ 
   ngOnDestroy(): void {
     this.storageSub?.unsubscribe();
   }

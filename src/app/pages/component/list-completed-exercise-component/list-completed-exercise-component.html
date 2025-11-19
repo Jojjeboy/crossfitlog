@@ -46,57 +46,14 @@
                 <p-tablist>
                     <p-tab value="0">Övning</p-tab>
                     <p-tab value="1">Logga</p-tab>
-                    <p-tab value="2">Föregående</p-tab>
+                    <p-tab value="2">Tidigare resultat</p-tab>
                 </p-tablist>
                 <p-tabpanels>
                     <p-tabpanel value="0">
-                        <p class="m-0">
-
-                        <div class="mb-4 p-8 flex items-center justify-center">
-                            <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-                                <ng-template #header>
-                                    <img alt="Card" class="w-full" [src]="selectedExcercise?.exercise?.gifUrl" />
-                                </ng-template>
-                                <ng-template #title> {{ selectedExcercise?.exercise?.name | titlecase}} </ng-template>
-                                <ng-template #subtitle>
-                                    <div class="flex">
-                                        <span class="span-flex-50 col-span-6 w-full text-xl text-muted-color">{{ selectedExcercise?.exercise?.bodyParts?.join(', ') |
-                                        titlecase }} trained with {{ selectedExcercise?.exercise?.equipments?.join(',') }}</span>
-                                        
-                                    </div>
-                                    <div class="flex items-center gap-2 flex-wrap chips">
-                                        @for (target of selectedExcercise?.exercise?.targetMuscles; track $index) {
-                                        <p-chip class="target" [label]="target | titlecase" />
-                                        }
-                                        @for (target of selectedExcercise?.exercise?.secondaryMuscles; track $index) {
-                                        <p-chip class="secondary" [label]="target | titlecase" />
-                                        }
-                                    </div>
-
-                                </ng-template>
-                                
-                                <ng-template #footer>
-                                    <div class="flex gap-4 mt-1">
-
-                                    </div>
-                                </ng-template>
-                                
-                                <div class="instructions">
-                                    <h5>Instruktioner</h5>
-                                    <ul>
-                                        @for (instr of selectedExcercise?.exercise?.instructions; track $index) {                            
-                                            <li>{{ instr }}</li>
-                                        }
-                                    </ul>
-                                </div>
-                            </p-card>
-                        </div>
-
-
+                        <app-excercise-description [selectedExcercise]="selectedExcercise?.exercise"></app-excercise-description>
                     </p-tabpanel>
                     <p-tabpanel value="1">
                         <p class="m-0">
-                            
                         </p>
                     </p-tabpanel>
                     <p-tabpanel value="2">

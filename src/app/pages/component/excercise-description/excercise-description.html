@@ -1,0 +1,33 @@
+<div class="mb-4 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+        <ng-template #header>
+            <img alt="Card" class="w-full" [src]="selectedExcercise?.gifUrl" />
+        </ng-template>
+        <ng-template #title> {{ selectedExcercise?.name | titlecase}} </ng-template>
+        <ng-template #subtitle>
+            <div class="flex">
+                <span class="span-flex-50 col-span-6 w-full text-xl text-muted-color">{{ selectedExcercise?.bodyParts?.join(', ') | titlecase }} trained with {{ selectedExcercise?.equipments?.join(',') }}</span>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap chips">
+                @for (target of selectedExcercise?.targetMuscles; track $index) {
+                    <p-chip class="target" [label]="target | titlecase" />
+                } @for (target of selectedExcercise?.secondaryMuscles; track $index) {
+                <p-chip class="secondary" [label]="target | titlecase" />
+                }
+            </div>
+        </ng-template>
+
+        <ng-template #footer>
+            <div class="flex gap-4 mt-1"></div>
+        </ng-template>
+
+        <div class="instructions">
+            <h5>Instruktioner</h5>
+            <ul>
+                @for (instr of selectedExcercise?.instructions; track $index) {
+                <li>{{ instr }}</li>
+                }
+            </ul>
+        </div>
+    </p-card>
+</div>

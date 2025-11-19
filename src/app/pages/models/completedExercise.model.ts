@@ -1,4 +1,4 @@
-import { Exercise as IExercise } from "./exercise.interface";
+import { ExerciseModel } from "./exercise.model";
 import { CompletedExercise } from "./completedExercise.interface";
 import { CompletedSet } from "./completedSets.interface";
 import { CompletedOccasion } from "./completedOccasion.interface";
@@ -8,13 +8,13 @@ export class CompletedExerciseModel implements CompletedExercise {
     // Ändrat till privata egenskaper med '_' prefix
     private _uuid: string;
     private _lookupId: string;
-    private _exercise: IExercise;
+    private _exercise: ExerciseModel;
     private _occasion: CompletedOccasion[];
 
     constructor(
         uuid: string,
         lookupId: string,
-        exercise: IExercise,
+        exercise: ExerciseModel,
         occassion: CompletedOccasion[],
     ) {
         // Initiera de privata egenskaperna i konstruktorn
@@ -35,7 +35,7 @@ export class CompletedExerciseModel implements CompletedExercise {
         return this._lookupId;
     }
 
-    public get exercise(): IExercise {
+    public get exercise(): ExerciseModel {
         return this._exercise;
     }
 
@@ -55,7 +55,7 @@ export class CompletedExerciseModel implements CompletedExercise {
         this._lookupId = value;
     }
 
-    public set exercise(value: IExercise) {
+    public set exercise(value: ExerciseModel) {
         this._exercise = value;
     }
 

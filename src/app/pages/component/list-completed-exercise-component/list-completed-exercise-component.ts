@@ -8,15 +8,16 @@ import { List } from '../List';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from "primeng/treetable";
 import { CardModule } from 'primeng/card';
-import { Chip } from 'primeng/chip';
+import { ChipModule } from 'primeng/chip';
 import { OccasionFormComponent } from "../occasion-form-component/occasion-form-component";
 import { ExerciseService } from '@/pages/service/exercise.service';
+import { ExcerciseDescription } from "../excercise-description/excercise-description";
 
 
 
 @Component({
   selector: 'app-list-completed-exercise-component',
-  imports: [CommonModule, Dialog, TabsModule, AccordionModule, TableModule, TreeTableModule, CardModule, Chip, OccasionFormComponent],
+  imports: [CommonModule, Dialog, TabsModule, AccordionModule, TableModule, TreeTableModule, CardModule, ChipModule, OccasionFormComponent, ExcerciseDescription],
   templateUrl: './list-completed-exercise-component.html',
   styleUrl: './list-completed-exercise-component.scss'
 })
